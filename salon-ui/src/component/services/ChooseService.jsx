@@ -1,14 +1,14 @@
 import Container from "react-bootstrap/Container";
 import {CardHeader, CardTitle, Card, CardBody, CardText, Row, Button} from "react-bootstrap";
-import {serviceStore} from "../store/servicesState";
-import {useEffect, useMemo, useState} from "react";
-import {useSharedState} from "../hooks/useSharedState";
-import {loadingIndicator} from "./loadingindicator/loadingstate";
-import {notification} from "./notification/notificationstate";
+import {useEffect, useState} from "react";
+import {useNavigate} from 'react-router-dom';
+import {loadingIndicator} from "../loadingindicator/loadingstate";
+import {notification} from "../notification/notificationstate";
 
 export function ChooseService() {
 const [services,setServices]=useState([]);
- //  const [state] = useSharedState();
+const navigate = useNavigate();
+
     const fetchServices = () => {
         // Subscribe to the observable and store the subscription
 
@@ -24,7 +24,7 @@ const [services,setServices]=useState([]);
                 console.log(data);
                 setServices([...services,...data]);
                 loadingIndicator.hide();
-                notification.showSuccess();
+                notification.showSuccess("services loaded.");
             }).catch((e) =>{
                 console.log("error :"+e);
                 loadingIndicator.hide();
@@ -36,6 +36,10 @@ const [services,setServices]=useState([]);
         fetchServices();
     }, []);
 
+    function bookHandler(id, name){
+    const underscoredName=name.split(' ').join('_')
+    navigate(`/chooseslot/${id}/${underscoredName}`);
+    }
     return (
         <Container fluid className="mt-xl-5">
             {services.map((service, index) => {
@@ -57,7 +61,7 @@ const [services,setServices]=useState([]);
                                 <CardText className="h2">${service.price}</CardText>
                                 <Card.Text className="mb-0">{service.description} </Card.Text>
                                 <Card.Text>{service.timeInMinutes} Minutes</Card.Text>
-                                <Button variant="outline-primary">Book Now</Button>
+                              <Button variant="outline-primary" onClick={() =>{bookHandler(service.id,service.name)}}>Book Now</Button>
                             </CardBody>
                         </Card>
                         <Card className="border-0 mb-4 me-4" key={services[index + 1].id}
@@ -79,7 +83,7 @@ const [services,setServices]=useState([]);
                                 <CardText className="h2">${services[index + 1].price}</CardText>
                                 <Card.Text className="mb-0">{services[index + 1].description} </Card.Text>
                                 <Card.Text>{services[index + 1].timeInMinutes} Minutes</Card.Text>
-                                <Button variant="outline-primary">Book Now</Button>
+                                <Button variant="outline-primary" onClick={() =>{bookHandler(services[index+1].id,services[index+1].name)}}>Book Now</Button>
                             </CardBody>
                         </Card>
                         <Card className="border-0 mb-4 me-4" key={services[index + 2].id}
@@ -101,7 +105,7 @@ const [services,setServices]=useState([]);
                                 <CardText className="h2">${services[index + 2].price}</CardText>
                                 <Card.Text className="mb-0">{services[index + 2].description} </Card.Text>
                                 <Card.Text>{services[index + 2].timeInMinutes} Minutes</Card.Text>
-                                <Button variant="outline-primary">Book Now</Button>
+                                <Button variant="outline-primary" onClick={() =>{bookHandler(services[index+2].id,services[index+2].name)}}>Book Now</Button>
                             </CardBody>
                         </Card></Row>)
                 }
