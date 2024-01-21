@@ -1,13 +1,16 @@
 import './App.css';
 import {Navbar} from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
-import {useState} from "react";
 import {LoadingIndicator} from "./component/loadingindicator/LoadingIndicator";
-import {ChooseService} from "./component/ChooseService";
-import {useSharedState} from "./hooks/useSharedState";
+import {ChooseService} from "./component/services/ChooseService";
+import {ChooseSlot} from './component/slots/ChooseSlot';
 import {AppNotification} from "./component/notification/AppNotification";
-
+import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 function App() {
+const router = createBrowserRouter([
+  {path: '/', element: <ChooseService/>},
+  {path: '/chooseslot/:serviceId/:serviceName', element:<ChooseSlot/>}
+]);
 
     return (
         <div className="App">
@@ -16,7 +19,8 @@ function App() {
                     <Navbar.Brand>AR Salon and Day Spa Services</Navbar.Brand>
                 </Container>
             </Navbar>
-                 <LoadingIndicator/>  <ChooseService/>
+                 <LoadingIndicator/>
+          <RouterProvider router={router}/>
             <AppNotification/>
         </div>
     );
