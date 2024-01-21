@@ -1,4 +1,4 @@
-package com.manning.salonapi.entities;
+package com.manning.salonapi.config;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
