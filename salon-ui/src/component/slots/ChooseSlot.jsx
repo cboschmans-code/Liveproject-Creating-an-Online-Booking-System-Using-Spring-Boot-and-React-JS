@@ -21,7 +21,7 @@ export function ChooseSlot() {
             return;
         }
         loadingIndicator.show()
-        fetch(`http://localhost:8080/api/services/retrieveAvailableSlots/${id}/${date.current.value}`)
+        fetch(`http://localhost:8080/api/slots/retrieveAvailableSlots/${id}/${date.current.value}`)
             .then(response => {
                 if (response.ok) {
                     return response.json();
@@ -30,6 +30,8 @@ export function ChooseSlot() {
             console.log(slots)
             setSlotsAreEmpty(false);
             setSlots([ ...data]);
+            console.log(data);
+            console.log(slots)
             loadingIndicator.hide();
             notification.showSuccess("slots loaded.");
         }).catch((e) => {

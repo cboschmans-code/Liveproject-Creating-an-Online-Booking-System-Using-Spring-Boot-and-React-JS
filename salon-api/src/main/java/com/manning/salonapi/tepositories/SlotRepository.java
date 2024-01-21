@@ -11,5 +11,5 @@ import java.util.List;
 
 @Repository
 public interface SlotRepository  extends JpaRepository<Slot, Long> {
-    List<Slot> findSlotByAvailableServicesContainingAndSlotForBetweenAndStatus(SalonServiceDetail wantedService, LocalDateTime beginTime, LocalDateTime endTime, SlotStatus slotStatus);
+    List<Slot> findSlotsByAvailableServicesContainingAndSlotForBetweenAndStatus(SalonServiceDetail wantedService, LocalDateTime beginTime, LocalDateTime endTime, SlotStatus slotStatus);
 }

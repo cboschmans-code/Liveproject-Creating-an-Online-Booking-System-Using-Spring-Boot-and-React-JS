@@ -33,10 +33,10 @@ public class SlotService {
         LocalDate localDate = getAsDate(formattedDate);
 
         LocalDateTime startDate = localDate.atStartOfDay();
-        LocalDateTime endDate = localDate.atStartOfDay();
+        LocalDateTime endDate = localDate.plusDays(1).atStartOfDay();
         log.info("Querying for  " + slotServiceId + " From " + startDate + " to " + endDate);
 
-        List<Slot> results = slotRepository.findSlotByAvailableServicesContainingAndSlotForBetweenAndStatus(salonServiceDetail, startDate, endDate, SlotStatus.AVAILABLE);
+        List<Slot> results = slotRepository.findSlotsByAvailableServicesContainingAndSlotForBetweenAndStatus(salonServiceDetail, startDate, endDate, SlotStatus.AVAILABLE);
         log.info("returning  " + results.size() + " Slots");
 
         return results;
