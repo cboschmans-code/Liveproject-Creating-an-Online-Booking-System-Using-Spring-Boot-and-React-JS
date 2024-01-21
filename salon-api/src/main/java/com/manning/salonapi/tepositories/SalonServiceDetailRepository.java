@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SalonServiceDetailRepository extends JpaRepository< SalonServiceDetail,Long> {
+    SalonServiceDetail findSalonServiceDetailById(Long id);
 }
