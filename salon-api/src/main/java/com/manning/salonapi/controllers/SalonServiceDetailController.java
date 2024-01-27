@@ -4,9 +4,11 @@ import com.manning.salonapi.config.SalonDetails;
 import com.manning.salonapi.entities.SalonServiceDetail;
 import com.manning.salonapi.entities.Slot;
 import com.manning.salonapi.entities.SlotStatus;
+import com.manning.salonapi.services.SalonServiceDetailService;
 import com.manning.salonapi.tepositories.SalonServiceDetailRepository;
 import com.manning.salonapi.tepositories.SlotRepository;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.antlr.v4.runtime.tree.pattern.ParseTreePatternMatcher;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,33 +29,19 @@ import java.util.stream.Stream;
 @RequestMapping(path = "api/services", produces = "application/json")
 public class SalonServiceDetailController {
 
-    private final SalonServiceDetailRepository salonServiceDetailRepository;
-    private final SlotRepository slotRepository;
+private final SalonServiceDetailService salonServiceDetailService;
 
-    public SalonServiceDetailController(SalonServiceDetailRepository salonServiceDetailRepository, SlotRepository slotRepository) {
-        this.salonServiceDetailRepository = salonServiceDetailRepository;
-        this.slotRepository = slotRepository;
+    public SalonServiceDetailController(SalonServiceDetailService salonServiceDetailService) {
+        this.salonServiceDetailService = salonServiceDetailService;
     }
 
-    @Tag(name = "RetrieveAvailableSalonServicesAPI", description = "RetrieveAvailableSalonServicesAPI")
     @GetMapping(path = "retrieveAvailableSalonServices")
+    @Operation(summary = "RetrieveAvailableSalonServicesAPI")
     public List<SalonServiceDetail> allAvailableSalonServices() {
-        return salonServiceDetailRepository.findAll();
+        return salonServiceDetailService.findAllServices();
     }
-    @Tag(name = "RetrieveAvailableSlotsAPI", description = "RetrieveAvailableSlotsAPI")
-    @GetMapping(path = "retrieveAvailableSlots/{salonServiceId}/{formattedDate}")
-    @Transactional(readOnly = true)
-    public List<Slot> allAvailableSlotsForAServiceOnADay(@PathVariable("salonServiceId") Long salonServiceId, @PathVariable("formattedDate") String formattedDate) {
-        LocalDate beginSlotDate = LocalDate.parse(formattedDate);
-        LocalDateTime beginSlotDateTime=beginSlotDate.atStartOfDay();
-        LocalDate endSlotDate = beginSlotDate.plusDays(1L);
-        LocalDateTime endSlotDateTime= endSlotDate.atStartOfDay();
-        SalonServiceDetail availableService = salonServiceDetailRepository.findSalonServiceDetailById(salonServiceId);
-        try (Stream<Slot> slotStream=slotRepository.findSlotsByAvailableServicesContainingAndSlotForBetween(availableService,beginSlotDateTime,endSlotDateTime)){
-            return slotStream.filter(slot -> slot.getStatus()== SlotStatus.AVAILABLE).toList();
-        }
 
-    }
+
 
 
 }

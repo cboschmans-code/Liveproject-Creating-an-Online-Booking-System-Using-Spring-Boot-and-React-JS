@@ -8,3 +8,4 @@ import org.springframework.stereotype.Repository;
 public interface SalonServiceDetailRepository extends JpaRepository< SalonServiceDetail,Long> {
     SalonServiceDetail findSalonServiceDetailById(Long id);
 }
+

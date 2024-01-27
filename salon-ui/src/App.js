@@ -9,7 +9,8 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 function App() {
 const router = createBrowserRouter([
   {path: '/', element: <ChooseService/>},
-  {path: '/chooseslot/:serviceId/:serviceName', element:<ChooseSlot/>}
+  {path: '/chooseslot/:serviceId/:serviceName', element:<ChooseSlot/>},
+    {path: '/makepayment/:slotId/:serviceId/:serviceName'}
 ]);
 
     return (
