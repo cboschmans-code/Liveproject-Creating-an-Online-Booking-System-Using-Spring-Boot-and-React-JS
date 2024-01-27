@@ -6,11 +6,12 @@ import {ChooseService} from "./component/services/ChooseService";
 import {ChooseSlot} from './component/slots/ChooseSlot';
 import {AppNotification} from "./component/notification/AppNotification";
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
+import {PaymentContainer} from "./component/payment/PaymentContainer";
 function App() {
 const router = createBrowserRouter([
   {path: '/', element: <ChooseService/>},
   {path: '/chooseslot/:serviceId/:serviceName', element:<ChooseSlot/>},
-    {path: '/makepayment/:slotId/:serviceId/:serviceName'}
+    {path: '/makepayment/:slotId/:serviceId/:serviceName', element: <PaymentContainer/>}
 ]);
 
     return (

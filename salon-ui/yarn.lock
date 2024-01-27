@@ -2530,6 +2530,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@stripe/react-stripe-js@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "@stripe/react-stripe-js@npm:2.4.0"
+  dependencies:
+    prop-types: "npm:^15.7.2"
+  peerDependencies:
+    "@stripe/stripe-js": ^1.44.1 || ^2.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: f4c062be2caee0a1068aad54b48abc211865be86edd0d771290c181cc4dc8d3f52d89940cdb9a7c88f4ab67d4c2f65c45716a66e912ce83527062fb8beafe37a
+  languageName: node
+  linkType: hard
+
+"@stripe/stripe-js@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "@stripe/stripe-js@npm:2.4.0"
+  checksum: 010849482974f80526528580e9d711082ab52784a14f99356bd4fcbdd9067c1963d6cf667ea3b0209633236f80db6aadd20c34c8cdd7d106865805deb2ae752b
+  languageName: node
+  linkType: hard
+
 "@surma/rollup-plugin-off-main-thread@npm:^2.2.3":
   version: 2.2.3
   resolution: "@surma/rollup-plugin-off-main-thread@npm:2.2.3"
@@ -10933,7 +10953,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.6.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -10972,6 +10992,13 @@ __metadata:
   version: 1.5.1
   resolution: "q@npm:1.5.1"
   checksum: 7855fbdba126cb7e92ef3a16b47ba998c0786ec7fface236e3eb0135b65df36429d91a86b1fff3ab0927b4ac4ee88a2c44527c7c3b8e2a37efbec9fe34803df4
+  languageName: node
+  linkType: hard
+
+"qr.js@npm:0.0.0":
+  version: 0.0.0
+  resolution: "qr.js@npm:0.0.0"
+  checksum: 1c6a4c7a58d04e52ec2fee99e39b680fdc5b2a510a981df42c36b716a8eac6634d130fc4d65af8f030f2a07dbf5fa046b97cdfa7456c250ebb50a73916efdcb5
   languageName: node
   linkType: hard
 
@@ -11152,6 +11179,22 @@ __metadata:
   version: 3.0.4
   resolution: "react-lifecycles-compat@npm:3.0.4"
   checksum: 1d0df3c85af79df720524780f00c064d53a9dd1899d785eddb7264b378026979acbddb58a4b7e06e7d0d12aa1494fd5754562ee55d32907b15601068dae82c27
+  languageName: node
+  linkType: hard
+
+"react-qr-code@npm:^2.0.12":
+  version: 2.0.12
+  resolution: "react-qr-code@npm:2.0.12"
+  dependencies:
+    prop-types: "npm:^15.8.1"
+    qr.js: "npm:0.0.0"
+  peerDependencies:
+    react: ^16.x || ^17.x || ^18.x
+    react-native-svg: "*"
+  peerDependenciesMeta:
+    react-native-svg:
+      optional: true
+  checksum: e02896764b7ff88fb1b8eb1d8ae7201f862a459ebc97732a8a18171c3d47a51a32341906fb673d9304d0d4dc4fd90093b1ebe42f428bb148f299d2929e2399ef
   languageName: node
   linkType: hard
 
@@ -11717,6 +11760,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "salon-ui@workspace:."
   dependencies:
+    "@stripe/react-stripe-js": "npm:^2.4.0"
+    "@stripe/stripe-js": "npm:^2.4.0"
     "@testing-library/jest-dom": "npm:^5.14.1"
     "@testing-library/react": "npm:^13.0.0"
     "@testing-library/user-event": "npm:^13.2.1"
@@ -11725,6 +11770,7 @@ __metadata:
     react: "npm:^18.2.0"
     react-bootstrap: "npm:^2.9.2"
     react-dom: "npm:^18.2.0"
+    react-qr-code: "npm:^2.0.12"
     react-router: "npm:^6.21.3"
     react-router-dom: "npm:^6.21.1"
     react-scripts: "npm:5.0.1"

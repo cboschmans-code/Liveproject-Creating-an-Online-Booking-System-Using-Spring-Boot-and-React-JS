@@ -1,6 +1,5 @@
 import {ProgressBar} from "react-bootstrap";
 import {useEffect, useState} from "react";
-import {serviceStore} from "../../store/servicesState";
 import {loadingIndicator} from "./loadingstate";
 
 export function LoadingIndicator() {

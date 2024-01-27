@@ -21,7 +21,7 @@ public class SalonApiApplication {
 
 			@Override
 			public void addCorsMappings(CorsRegistry corsRegistry) {
-				corsRegistry.addMapping("/**").allowedOrigins("*");
+				corsRegistry.addMapping("/**");
 			}
 
 		};

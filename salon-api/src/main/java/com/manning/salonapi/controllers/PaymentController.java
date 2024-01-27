@@ -15,7 +15,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping(path = "/api/payments", produces = "application/json")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PaymentController {
+
 
     private final PaymentService paymentService;
 
@@ -51,7 +53,7 @@ public class PaymentController {
         } catch(PaymentNotFoundException pnfe){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "payment not found", pnfe);
         } catch (StripeException se){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,se.getMessage(),se);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,se.getUserMessage(),se);
         } catch (PaymentNotSucceededException pnse){
             throw new ResponseStatusException(HttpStatus.PAYMENT_REQUIRED,"payment did not succeed",pnse);
         }

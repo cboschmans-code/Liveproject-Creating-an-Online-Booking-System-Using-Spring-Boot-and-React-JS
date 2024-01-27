@@ -38,7 +38,7 @@ public class SalonDetails {
         salonDetails.address = address;
         salonDetails.city = city;
         salonDetails.state = state;
-        salonDetails.zipcode = zipcode;
+        salonDetails.zipCode = zipCode;
         salonDetails.phone = phone;
         salonDetails.name = name;
         return salonDetails;

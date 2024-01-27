@@ -36,8 +36,8 @@ public class PaymentService {
 
     public Payment initiatePayment(PaymentRequest paymentRequest) throws SlotNotAvailableException, SlotNotFoundException, SalonServiceDetailNotFoundException, StripeException {
         Stripe.apiKey = salonDetails.getApiKey();
-        Slot slot = slotRepository.findById(paymentRequest.slotID()).orElseThrow(SlotNotFoundException::new);
-        SalonServiceDetail salonServiceDetail = salonServiceDetailRepository.findById(paymentRequest.salonServiceDetailID()).orElseThrow(SalonServiceDetailNotFoundException::new);
+        Slot slot = slotRepository.findById(paymentRequest.slotId()).orElseThrow(SlotNotFoundException::new);
+        SalonServiceDetail salonServiceDetail = salonServiceDetailRepository.findById(paymentRequest.salonServiceDetailId()).orElseThrow(SalonServiceDetailNotFoundException::new);
         if (slot.getStatus() != SlotStatus.AVAILABLE) {
             throw new SlotNotAvailableException();
         }
@@ -59,7 +59,7 @@ public class PaymentService {
     public Ticket confirmPayment(String paymentId) throws PaymentNotFoundException, StripeException ,PaymentNotSucceededException{
         Payment payment = paymentRepository.findByIntentId(paymentId).orElseThrow(PaymentNotFoundException::new);
         Stripe.apiKey = salonDetails.getApiKey();
-        PaymentIntent paymentIntent = PaymentIntent.retrieve(payment.getClientSecret());
+        PaymentIntent paymentIntent = PaymentIntent.retrieve(paymentId);
         if (paymentIntent.getStatus().equals(IntentStatus.succeeded.toString())) {
             payment.setStatus(PaymentStatus.SUCCESS);
             payment.getSlot().setStatus(SlotStatus.CONFIRMED);
