@@ -1,7 +1,7 @@
 import {useRef, useState} from "react";
 import {Button, Col, Form, Row, CardHeader, CardTitle, Card, CardBody, CardText} from "react-bootstrap";
 import Container from "react-bootstrap/Container";
-import {useLocation} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {loadingIndicator} from "../loadingindicator/loadingstate";
 import {notification} from "../notification/notificationstate";
 
@@ -9,6 +9,7 @@ export function ChooseSlot() {
     const [slots, setSlots] = useState([]);
     const [slotsAreEmpty,setSlotsAreEmpty]=useState(true)
     const {pathname} = useLocation();
+    const navigate = useNavigate();
     const date = useRef();
 
     const serviceName = pathname.split('/')[3].split('_').join(' ');
@@ -21,7 +22,7 @@ export function ChooseSlot() {
             return;
         }
         loadingIndicator.show()
-        fetch(`http://localhost:8080/api/services/retrieveAvailableSlots/${id}/${date.current.value}`)
+        fetch(`http://localhost:8080/api/slots/retrieveAvailableSlots/${id}/${date.current.value}`)
             .then(response => {
                 if (response.ok) {
                     return response.json();
@@ -30,6 +31,8 @@ export function ChooseSlot() {
             console.log(slots)
             setSlotsAreEmpty(false);
             setSlots([ ...data]);
+            console.log(data);
+            console.log(slots)
             loadingIndicator.hide();
             notification.showSuccess("slots loaded.");
         }).catch((e) => {
@@ -38,7 +41,11 @@ export function ChooseSlot() {
             loadingIndicator.hide();
             notification.showError(e.message);
         });
+    }
 
+    function bookSlotHandler(slotId){
+        const underscoredName=serviceName.split(' ').join('_')
+        navigate(`/makepayment/${slotId}/${serviceId}/${underscoredName}`);
     }
     return (<Container fluid className="m-xl-5">
             <Form>
@@ -79,7 +86,7 @@ export function ChooseSlot() {
                                             minute: 'numeric',
                                             hour12: true
                                         })}</small> </Card.Text>
-                                    <Button variant="outline-primary">Book This Slot</Button>
+                                    <Button variant="outline-primary" onClick={() => {bookSlotHandler(slot.id)}}>Book This Slot</Button>
                                 </CardBody>
                             </Card>
                             </Col>)

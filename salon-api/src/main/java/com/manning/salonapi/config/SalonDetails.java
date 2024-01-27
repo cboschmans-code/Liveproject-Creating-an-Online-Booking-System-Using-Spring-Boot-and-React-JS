@@ -29,4 +29,6 @@ public class SalonDetails {
     String zipCode;
     @Value("${salon.phone}")
     String phone;
+    @Value("${stripe.api.key}")
+    private String apiKey;
 }
