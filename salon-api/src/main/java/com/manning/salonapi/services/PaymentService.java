@@ -3,12 +3,11 @@ package com.manning.salonapi.services;
 import com.manning.salonapi.config.SalonDetails;
 import com.manning.salonapi.dto.PaymentRequest;
 import com.manning.salonapi.entities.*;
-import com.manning.salonapi.exceptions.SalonServiceDetailNotFoundException;
-import com.manning.salonapi.exceptions.SlotNotAvailableException;
-import com.manning.salonapi.exceptions.SlotNotFoundException;
+import com.manning.salonapi.exceptions.*;
 import com.manning.salonapi.tepositories.PaymentRepository;
 import com.manning.salonapi.tepositories.SalonServiceDetailRepository;
 import com.manning.salonapi.tepositories.SlotRepository;
+import com.manning.salonapi.tepositories.TicketRepository;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
@@ -23,12 +22,15 @@ public class PaymentService {
     private final SalonServiceDetailRepository salonServiceDetailRepository;
 
     private final SalonDetails salonDetails;
+    private final TicketRepository ticketRepository;
 
-    public PaymentService(PaymentRepository paymentRepository, SlotRepository slotRepository, SalonServiceDetailRepository salonServiceDetailRepository, SalonDetails salonDetails) {
+    public PaymentService(PaymentRepository paymentRepository, SlotRepository slotRepository, SalonServiceDetailRepository salonServiceDetailRepository, SalonDetails salonDetails,
+                          TicketRepository ticketRepository) {
         this.paymentRepository = paymentRepository;
         this.slotRepository = slotRepository;
         this.salonServiceDetailRepository = salonServiceDetailRepository;
         this.salonDetails = salonDetails;
+        this.ticketRepository = ticketRepository;
     }
 
 
@@ -51,7 +53,23 @@ public class PaymentService {
                 .email(paymentRequest.email()).phoneNumber(paymentRequest.phoneNumber()).build());
         slot.setStatus(SlotStatus.LOCKED);
         slotRepository.save(slot);
-        return  payment;
+        return payment;
     }
 
+    public Ticket confirmPayment(String paymentId) throws PaymentNotFoundException, StripeException ,PaymentNotSucceededException{
+        Payment payment = paymentRepository.findByIntentId(paymentId).orElseThrow(PaymentNotFoundException::new);
+        Stripe.apiKey = salonDetails.getApiKey();
+        PaymentIntent paymentIntent = PaymentIntent.retrieve(payment.getClientSecret());
+        if (paymentIntent.getStatus().equals(IntentStatus.succeeded.toString())) {
+            payment.setStatus(PaymentStatus.SUCCESS);
+            payment.getSlot().setStatus(SlotStatus.CONFIRMED);
+            paymentRepository.save(payment);
+            return ticketRepository.save(Ticket.builder().payment(payment).ticketStatus(TicketStatus.BOOKED).build());
+        } else {
+            payment.setStatus(PaymentStatus.FAILED);
+            paymentRepository.save(payment);
+            throw new PaymentNotSucceededException();
+        }
+
+    }
 }

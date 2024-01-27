@@ -1,19 +1,16 @@
 package com.manning.salonapi.controllers;
 
+import com.manning.salonapi.config.SalonDetails;
 import com.manning.salonapi.dto.ClientSecretResponse;
 import com.manning.salonapi.dto.PaymentRequest;
-import com.manning.salonapi.exceptions.SalonServiceDetailNotFoundException;
-import com.manning.salonapi.exceptions.SlotNotAvailableException;
-import com.manning.salonapi.exceptions.SlotNotFoundException;
+import com.manning.salonapi.dto.PaymentResponse;
+import com.manning.salonapi.exceptions.*;
 import com.manning.salonapi.services.PaymentService;
 import com.manning.salonapi.tepositories.PaymentRepository;
 import com.stripe.exception.StripeException;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
@@ -22,8 +19,11 @@ public class PaymentController {
 
     private final PaymentService paymentService;
 
-    public PaymentController(PaymentService paymentService) {
+    private  final SalonDetails salonDetails;
+
+    public PaymentController(PaymentService paymentService, SalonDetails salonDetails) {
         this.paymentService = paymentService;
+        this.salonDetails = salonDetails;
     }
 
     @PostMapping(path = "/initiate", consumes = "application/json")
@@ -42,5 +42,19 @@ public class PaymentController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "salon service id was wrong, no salon service found", ssde);
         }
     }
+
+    @PutMapping(path = "/confirm/{paymentId}")
+    @Operation(summary = "VerifyPaymentAndConfirmSlotAPI")
+    public PaymentResponse confirmPayment(@PathVariable String paymentId){
+        try {
+            return new PaymentResponse(paymentService.confirmPayment(paymentId), salonDetails.clone());
+        } catch(PaymentNotFoundException pnfe){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "payment not found", pnfe);
+        } catch (StripeException se){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,se.getMessage(),se);
+        } catch (PaymentNotSucceededException pnse){
+            throw new ResponseStatusException(HttpStatus.PAYMENT_REQUIRED,"payment did not succeed",pnse);
+        }
+        }
 
 }

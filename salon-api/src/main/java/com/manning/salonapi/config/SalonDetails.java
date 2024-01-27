@@ -31,4 +31,16 @@ public class SalonDetails {
     String phone;
     @Value("${stripe.api.key}")
     private String apiKey;
+
+    public SalonDetails clone() {
+
+        SalonDetails salonDetails = new SalonDetails();
+        salonDetails.address = address;
+        salonDetails.city = city;
+        salonDetails.state = state;
+        salonDetails.zipcode = zipcode;
+        salonDetails.phone = phone;
+        salonDetails.name = name;
+        return salonDetails;
+    }
 }
