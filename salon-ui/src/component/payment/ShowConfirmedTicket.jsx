@@ -36,7 +36,7 @@ export function ShowConfirmedTicket() {
             </Col>
             <Col className={"justify-content-start"}>
                 <p className={"fw-bold"}>Take a Picture of the below code and present it to admin</p>
-                <QRCode className={"float-start"} value={`http://192.168.0.212:8080/api/tickets/${ticket.id}`} size={100}/>
+                <QRCode className={"float-start"} value={`${ticket.id}`} size={100}/>
             </Col>
         </Row>
     </>));

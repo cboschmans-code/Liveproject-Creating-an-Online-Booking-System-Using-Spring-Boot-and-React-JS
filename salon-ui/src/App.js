@@ -7,12 +7,15 @@ import {ChooseSlot} from './component/slots/ChooseSlot';
 import {AppNotification} from "./component/notification/AppNotification";
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import {PaymentContainer} from "./component/payment/PaymentContainer";
+import {VerifyUser} from "./component/admin/VerifyUser";
+
 function App() {
-const router = createBrowserRouter([
-  {path: '/', element: <ChooseService/>},
-  {path: '/chooseslot/:serviceId/:serviceName', element:<ChooseSlot/>},
-    {path: '/makepayment/:slotId/:serviceId/:serviceName', element: <PaymentContainer/>}
-]);
+    const router = createBrowserRouter([
+        {path: '/', element: <ChooseService/>},
+        {path: '/chooseslot/:serviceId/:serviceName', element: <ChooseSlot/>},
+        {path: '/makepayment/:slotId/:serviceId/:serviceName', element: <PaymentContainer/>},
+        {path: '/admin/verifyuser',element: <VerifyUser/>}
+    ]);
 
     return (
         <div className="App">
@@ -21,8 +24,8 @@ const router = createBrowserRouter([
                     <Navbar.Brand>AR Salon and Day Spa Services</Navbar.Brand>
                 </Container>
             </Navbar>
-                 <LoadingIndicator/>
-          <RouterProvider router={router}/>
+            <LoadingIndicator/>
+            <RouterProvider router={router}/>
             <AppNotification/>
         </div>
     );

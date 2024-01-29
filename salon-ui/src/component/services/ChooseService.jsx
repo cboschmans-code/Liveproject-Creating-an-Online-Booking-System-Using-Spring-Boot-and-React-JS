@@ -14,7 +14,7 @@ const navigate = useNavigate();
 
 
             loadingIndicator.show()
-            fetch("http://localhost:8080/api/services/retrieveAvailableSalonServices")
+            fetch("https://localhost:8443/api/services/retrieveAvailableSalonServices")
                 .then(response => {
                     if (response.ok) {
                         return response.json();

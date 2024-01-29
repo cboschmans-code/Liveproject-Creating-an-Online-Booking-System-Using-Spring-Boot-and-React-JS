@@ -22,7 +22,7 @@ export function ChooseSlot() {
             return;
         }
         loadingIndicator.show()
-        fetch(`http://localhost:8080/api/slots/retrieveAvailableSlots/${id}/${date.current.value}`)
+        fetch(`https://localhost:8443/api/slots/retrieveAvailableSlots/${id}/${date.current.value}`)
             .then(response => {
                 if (response.ok) {
                     return response.json();

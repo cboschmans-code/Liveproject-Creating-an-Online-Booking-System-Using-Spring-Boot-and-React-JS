@@ -27,7 +27,7 @@ export function GetBillingDetails() {
     }, []);
 
     async function initiatePayment() {
-        fetch(`http://localhost:8080/api/payments/initiate`, {
+        fetch(`https://localhost:8443/api/payments/initiate`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

@@ -35,7 +35,7 @@ export function PayWithStripe() {
                 }
             }
         );
-        fetch(`http://localhost:8080/api/payments/confirm/${paymentIntent.id}`, {
+        fetch(`https://localhost:8443/api/payments/confirm/${paymentIntent.id}`, {
             method: "PUT"})     .then(response => {
             if (response.ok) {
                 return response.json();
